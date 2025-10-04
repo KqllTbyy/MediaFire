@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BACKUP-HYLEX-2025-LEAK - MediaFire</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------------------------------------------------- */
+        /*  Variables y Estilos Generales */
+        /* ---------------------------------------------------- */
+        :root {
+            --color-mf-blue: #007bff; /* Azul primario */
+            --color-mf-dark-blue: #0056b3;
+            --color-mf-gray-bg: #f7f7f7;
+            --color-mf-border: #e8e8e8;
+            --color-mf-text: #333333;
+            --font-mf: 'Roboto', sans-serif;
+            /* Colores para el icono de archivador */
+            --color-file-icon-base: #aaaaaa;
+            --color-file-icon-darker: #888888;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: var(--font-mf);
+            color: var(--color-mf-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ---------------------------------------------------- */
+        /*  Barra de Navegación Falsa (Header) */
+        /* ---------------------------------------------------- */
+        .mf-header {
+            width: 100%;
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--color-mf-border);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+
+        .mf-header-left {
+            display: flex;
+            align-items: center;
+        }
+
+
+.mf-logo-flame {
+    /* Reinicia los estilos de la llama anterior */
+    width: 30px; 
+    height: 30px;
+    position: relative;
+    margin-right: 15px;
+    background: none;
+    box-shadow: none;
+    transform: none; /* Elimina cualquier rotación o sesgo */
+    display: flex; /* Asegura la alineación */
+    align-items: center;
+    justify-content: center;
+}
+
+.mf-logo-flame::before {
+    /* Aquí insertamos el emoji */
+    content: ''; 
+    
+    /* Le damos un tamaño visible, ajusta este valor si es muy grande o pequeño */
+    font-size: 2em; 
+    
+    /* Los pseudo-elementos anteriores ya no son necesarios, pero aseguramos que este sea el único visible */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1; /* Esto ayuda a que el emoji no tenga espacio extra */
+}
+
+/* MUY IMPORTANTE: Elimina .mf-logo-flame::after del código anterior si todavía existe. */
+
+
+
+
+
+        /* Bandera de EE. UU. (Emoji nativo) */
+        .flag-emoji {
+            font-size: 1.5em; /* Tamaño visible */
+            line-height: 1;
+            margin-right: 10px;
+            /* El usuario usó la bandera emoji, la dejamos así pero limpia */
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        
+        /* Ambos botones de "SIGN UP" y "LOG IN" son azules, como se solicitó */
+        .sign-up-btn, .log-in-btn {
+            background-color: var(--color-mf-blue);
+            color: white;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        .sign-up-btn:hover, .log-in-btn:hover {
+            background-color: var(--color-mf-dark-blue);
+        }
+
+        /* ---------------------------------------------------- */
+        /*  Contenedor Principal de la Descarga */
+        /* ---------------------------------------------------- */
+        main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 5%;
+        }
+
+        .download-card {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        .download-link {
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 4px; /* Asegurar que la tarjeta tenga bordes redondeados */
+        }
+        .download-link:hover .file-box {
+            background-color: var(--color-mf-dark-blue);
+        }
+
+        .file-box {
+            background-color: var(--color-mf-blue);
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /*  ICONO DE ARCHIVADOR (CSS Puro, como se pidió) */
+        .file-icon-left {
+            width: 35px;
+            height: 40px;
+            background-color: var(--color-file-icon-base);
+            border-radius: 3px;
+            position: relative;
+            margin-left: 5px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 5px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .file-icon-left::before,
+        .file-icon-left::after {
+            content: '';
+            position: absolute;
+            height: 12px;
+            width: 40%;
+            background-color: var(--color-file-icon-base);
+            border-radius: 2px 2px 0 0;
+            top: -5px;
+            border: 1px solid var(--color-file-icon-darker);
+            box-sizing: border-box;
+        }
+        .file-icon-left::before {
+            left: 2px;
+            transform: skewX(-15deg);
+            z-index: 2;
+            background-color: #c0c0c0;
+        }
+        .file-icon-left::after {
+            right: 2px;
+            transform: skewX(15deg);
+            background-color: #b0b0b0;
+        }
+        /* Fin del icono de archivador */
+
+
+        .file-box-info {
+            text-align: left;
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .file-box-info h2 {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin: 0;
+            color: white;
+        }
+
+        .file-box-info p {
+            font-size: 0.8em;
+            font-weight: 400;
+            margin: 2px 0 0 0;
+            opacity: 0.8;
+            color: white;
+        }
+
+        .download-icon-right {
+            font-size: 1.5em;
+            color: white;
+            opacity: 0.8;
+            margin-right: 5px;
+        }
+
+        /* Botón de Descarga Principal (El "Download Faster Now") */
+        .faster-download-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* Ajustes para hacer el cuadro más compacto */
+            padding: 8px 15px; 
+            min-height: 25px;
+
+            /* Fondo Blanco/Gris Claro, NO negro/marrón */
+            background-color: #3B302D; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 0 0 4px 4px;
+            margin-top: -1px;
+            border: 1px solid var(--color-mf-border);
+            border-top: none;
+        }
+        
+        /* Texto "Download too slow?" - Pequeño y Gris */
+        .faster-download-box span {
+            font-size: 0.8em; 
+            color: #777;
+        }
+
+
+        .download-faster-btn {
+            background-color: var(--color-mf-blue);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+
+        .download-faster-btn:hover {
+            background-color: var(--color-mf-dark-blue);
+        }
+
+        /* [RESTO DE ESTILOS] */
+        .info-text {
+            width: 100%;
+            max-width: 600px;
+            font-size: 0.9em;
+            color: #777777;
+            margin-top: 25px;
+            line-height: 1.5;
+            text-align: left;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .secondary-actions {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 25px;
+            gap: 15px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .action-btn {
+            flex: 1;
+            background-color: var(--color-mf-gray-bg);
+            border: 1px solid var(--color-mf-border);
+            padding: 15px 10px;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 500;
+            color: var(--color-mf-text);
+            text-decoration: none;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .action-btn i {
+            margin-right: 8px;
+            color: #777;
+        }
+
+        .map-section {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 40px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .map-section p {
+            font-size: 0.9em;
+            color: #777;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 150px;
+            background-color: #e0f7fa;
+            border: 1px solid #b3e5fc;
+            background-image: 
+                linear-gradient(to right, #ff9800 50%, #4caf50 50%),
+                radial-gradient(circle at 70% 30%, #aed581 10%, transparent 10%),
+                radial-gradient(circle at 30% 80%, #ffab91 10%, transparent 10%);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 4px;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #000000;
+            color: #aaaaaa;
+            padding: 30px 5%;
+            margin-top: 50px;
+            font-size: 0.8em;
+            text-align: center;
+            line-height: 2;
+            box-sizing: border-box;
+        }
+
+        .footer-logo {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .footer-links a {
+            color: #aaaaaa;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .unaffiliated-notice {
+            color: #ff9800;
+            margin-top: 20px;
+        }
+
+        .social-icons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <header class="mf-header">
+        <div class="mf-header-left">
+            <div class="mf-logo-flame"></div> 
+        </div>
+        <div class="header-controls">
+            <span class="flag-emoji"></span>
+            <a href="#" class="header-btn sign-up-btn">SIGN UP</a>
+            <a href="#" class="header-btn log-in-btn">LOG IN</a>
+        </div>
+    </header>
+
+    <main>
+        
+        <div class="download-card">
+            <a href="https://youtu.be/dQw4w9WgXcQ?si=nQe0xYAwtXj-KBW" target="_blank" class="download-link">
+                <div class="file-box">
+                    <div class="file-icon-left"></div> 
+                    <div class="file-box-info">
+                        <h2>BACKUP-HYLEX-2025-LEAK</h2>
+                        <p>Download in a new tab (98.48MB)</p>
+                    </div>
+                    <i class="fas fa-download download-icon-right"></i>
+                </div>
+            </a>
+            
+            <div class="faster-download-box">
+                <span>Download too slow?</span>
+                <a href="https://youtu.be/dQw4w9WgXcQ?si=nQe0xYAwtXj-KBW" target="_blank" class="download-faster-btn">
+                    DOWNLOAD FASTER NOW
+                </a>
+            </div>
+        </div>
+
+        <p class="info-text">
+            Clicking the download button above will start your download in a new tab and show a message from our advertising partners.
+        </p>
+
+        <div class="secondary-actions">
+            <a href="#" class="action-btn">
+                <i class="fas fa-share-alt"></i> Share options
+            </a>
+            <a href="#" class="action-btn">
+                <i class="fas fa-plus"></i> Save to My Files
+            </a>
+        </div>
+
+        <div class="map-section">
+            <p>Upload region:</p>
+            <div class="map-placeholder"></div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-logo">MN</div>
+        <div class="footer-links">
+            <a href="#">Support</a> | <a href="#">Status</a> | <a href="#">Jobs</a> | <a href="#">FAQ</a>
+        </div>
+        <div class="footer-links">
+            <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+        </div>
+        <div class="footer-links">
+             <a href="#">Do Not Sell or Share My Personal Information</a>
+        </div>
+        <div class="unaffiliated-notice">
+            Not affiliated with Mojang or Microsoft
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+        <p style="margin-top: 15px;">© 2025 Moonsworth, LLC</p>
+    </footer>
+
+</body>
+</html>
